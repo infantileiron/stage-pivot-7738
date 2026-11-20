@@ -15,3 +15,7 @@ def cell(s,i,a,b):
  c=next((c for c in r.result['cells'] if c['row_key']==a and c['col_key']==b),None)
  if not c or c['count']==0:raise HTTPException(404,'该透视单元没有结算记录')
  return r,c
+def reviewable(s,i,a,b):
+ r,c=cell(s,i,a,b)
+ if c.get('net_cents') is None:raise HTTPException(409,'原币透视按币种分列，请改用本币透视核对差异')
+ return r,c
